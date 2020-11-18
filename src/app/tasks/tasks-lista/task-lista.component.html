@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="ui-g">
+
+      <div class="ui-g-12">
+        <h1>Tarefas</h1>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Titulo </label>
+        <input type="text" class="espacamento" pInputText name="titulo" [(ngModel)]="titulo" >
+
+        <button pButton class="espacamento" type="button" (click)="pesquisar()" label="Pesquisar" ></button>
+        <a pButton label="Cadastrar" routerLink="/tasks/novo" ></a>
+      </div>
+  </div>
+
+  <br /><br />
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [value]="tasks" [paginator]="true" [rows]="pageSize" [responsive]="true" [lazy]="true"
+        [totalRecords]="totalElements" (onLazyLoad)="mudarPagina($event)" emptyMessage="Nenhum registro encontrado">
+        <ng-template pTemplate="header">
+          <tr>
+              <th>ID</th>
+              <th>Titulo</th>
+              <th>Data Criação</th>
+              <th>Data Conclusão</th>
+              <th>Status</th>
+              <th></th>
+              <th [ngClass]="'col-acoes'">Ações</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task>
+          <tr>
+            <td>{{task.id}}</td>
+            <td>{{task.titulo}}</td>
+            <td [ngClass]="'col-data'">{{task.dataCriacao | date : 'dd/MM/yyyy'}}</td>
+            <td [ngClass]="'col-data'">{{task.dataConclusao | date : 'dd/MM/yyyy'}}</td>
+            <td>{{task.status}}</td>
+            <td></td>
+            <td [ngClass]="'col-acoes'">
+              <a pButton icon="pi pi-pencil" style="margin-right: .5em; width: 40%;" pTooltip="Editar"
+                [routerLink]="['/tasks', task.id]" tooltipPosition="top"></a>
+              <button pButton icon="pi pi-trash" style="width: 40%;" pTooltip="Excluir"
+                tooltipPosition="top"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+</div>
