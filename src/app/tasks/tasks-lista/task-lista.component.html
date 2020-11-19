@@ -35,7 +35,6 @@
               <th>Data Criação</th>
               <th>Data Conclusão</th>
               <th>Status</th>
-              <th></th>
               <th [ngClass]="'col-acoes'">Ações</th>
           </tr>
         </ng-template>
@@ -45,9 +44,9 @@
             <td>{{task.titulo}}</td>
             <td [ngClass]="'col-data'">{{task.dataCriacao | date : 'dd/MM/yyyy'}}</td>
             <td [ngClass]="'col-data'">{{task.dataConclusao | date : 'dd/MM/yyyy'}}</td>
-            <td>{{task.status}}</td>
             <td>
-               <p-tableCheckbox [value]="task" (click)="concluirTask(task, task.status)"></p-tableCheckbox>
+              {{task.status}}
+              <p-tableCheckbox [value]="task" (click)="concluirTask(task, task.status)"></p-tableCheckbox>
             </td>
             <td [ngClass]="'col-acoes'">
               <a pButton icon="pi pi-pencil" style="margin-right: .5em; width: 40%;" pTooltip="Editar"

@@ -58,13 +58,14 @@ export class TaskListaComponent implements OnInit {
   }
 
   concluirTask(task: Task, status: string) {
-    task.status = 0;
+    const taskSelected = task;
+    taskSelected.status = 0;
 
     if (status === 'PENDENTE') {
-      task.status = 1;
+      taskSelected.status = 1;
     }
 
-    this.taskService.concluirTask(task)
+    this.taskService.concluirTask(taskSelected)
       .subscribe(res => {
         task.status = res.status;
         task.dataConclusao = res.dataConclusao;
