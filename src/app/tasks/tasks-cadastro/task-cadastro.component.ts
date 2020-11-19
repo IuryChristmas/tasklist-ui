@@ -29,7 +29,9 @@ export class TaskCadastroComponent implements OnInit{
       id: [null],
       titulo: [null, Validators.required],
       status: [null, Validators.required],
-      descricao: [null]
+      descricao: [null],
+      dataCriacao: [null],
+      dataConclusao: [null]
     });
 
     if (this.route.snapshot.params[this.parametroTaskId] != null) {
@@ -52,20 +54,34 @@ export class TaskCadastroComponent implements OnInit{
   }
 
   get editando() {
-    return Boolean(this.task.id);
+    return Boolean(this.formGroup.value.id);
   }
 
   private _carregarTask(id: number) {
     this.taskService.buscarPorId(id)
       .subscribe(task => {
-        this.task = task;
+        this.formGroup.patchValue({
+          id: task.id,
+          titulo: task.titulo,
+          status: this._verificarStatus(task.status),
+          descricao: task.descricao,
+          dataCriacao: task.dataCriacao,
+          dataConclusao: task.dataConclusao
+        });
       });
   }
 
+  private _verificarStatus(status: any): any {
+    if (status === 'PENDENTE') {
+      return this.status[0];
+    }
+
+    return this.status[1];
+  }
+
   private _adicionarTask() {
-    this.task = new Task();
-    this.task.descricao = this.formGroup.value.descricao;
-    this.task.titulo = this.formGroup.value.titulo;
+
+    this._buildTaskFromForm();
 
     this.taskService.salvar(this.task)
       .subscribe(() => {
@@ -77,6 +93,9 @@ export class TaskCadastroComponent implements OnInit{
   }
 
   private _atualizarTask() {
+
+    this._buildTaskFromForm();
+
     this.taskService.atualizarTask(this.task)
       .subscribe(task => {
         this.task = task;
@@ -84,4 +103,15 @@ export class TaskCadastroComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Atualizado com sucesso' });
       });
   }
+
+  private _buildTaskFromForm(): void {
+    this.task = new Task();
+    this.task.id = this.formGroup.value.id;
+    this.task.descricao = this.formGroup.value.descricao;
+    this.task.titulo = this.formGroup.value.titulo;
+    this.task.status = this.formGroup.value.status.id;
+    this.task.dataCriacao = this.formGroup.value.dataCriacao;
+    this.task.dataConclusao = this.formGroup.value.dataConclusao;
+  }
+
 }

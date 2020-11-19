@@ -1,44 +1,43 @@
 <div class="container">
 
-  <!--<form #formP="ngForm" autocomplete="off" (ngSubmit)="salvar(formP.form)">-->
   <form class="container" [formGroup]="formGroup">
     <p-toast></p-toast>
 
-    <div class="ui-g">
-      <div class="ui-g-12">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-col-12">
         <h1>{{ editando ? 'Edição' : 'Cadastro' }} de Tarefa</h1>
       </div>
 
-      <div class="ui-g-6 ui-md-9 ui-fluid">
-        <label style="margin-right: .5em;">Titulo</label>
-        <!--<input pInputText type="text" name="titulo" [(ngModel)]="task.titulo" #nome="ngModel" required>-->
-        <input pInputText type="text" formControlName="titulo">
-
+      <div class="p-field p-grid">
+        <label for="titulo" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Titulo</label>
+        <div class="p-col-12 p-md-10">
+          <input pInputText type="text" formControlName="titulo">
+        </div>
       </div>
 
       <br />
-
-      <div class="ui-g-6 ui-md-9 ui-fluid">
-        <label style="margin-right: .5em; margin-left: .5em;">Status</label>
-        <p-dropdown [options]="status" placeholder="Selecione Status" formControlName="status"
+      <div class="p-field p-grid">
+        <label for="status" class="p-col-3 p-mb-2 p-md-2 p-mb-md-0">Status</label>
+        <div class="p-col-3 p-md-3">
+          <p-dropdown [options]="status" placeholder="Selecione Status" formControlName="status"
           optionLabel="value"></p-dropdown>
+        </div>
       </div>
 
       <br />
-
-      <div class="ui-g-12 ui-md-6 ui-fluid">
-        <label style="margin-right: .5em;">Descrição</label>
-        <!--<input pInputText type="text" name="descricao" [(ngModel)]="task.descricao" #descricao="ngModel">-->
-        <input pInputText type="text" formControlName="descricao">
-
+      <div class="p-field">
+        <label for="descricao" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Descrição</label>
+        <div class="p-col-12 p-md-10">
+          <input pInputText type="text" formControlName="descricao">
+        </div>
       </div>
 
-      <br />
+    </div>
 
-      <div class="ui-g-12">
-        <button pButton label="Salvar" (click)="salvar()" type="submit" style="margin-right: .5em;"></button>
-        <a pButton label="Voltar" routerLink="/"></a>
-      </div>
+    <br />
+    <div class="ui-g-12">
+      <button pButton label="Salvar" (click)="salvar()" type="submit" style="margin-right: .5em;"></button>
+      <a pButton label="Voltar" routerLink="/"></a>
     </div>
 
   </form>

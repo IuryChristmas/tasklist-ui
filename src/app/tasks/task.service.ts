@@ -22,6 +22,10 @@ export class TaskService {
       params = params.set('titulo', taskFilter.titulo);
     }
 
+    if (taskFilter.status) {
+      params = params.set('status', taskFilter.status.toString());
+    }
+
     return this.http.get(`${this.taskUrl}`, { params })
       .pipe(
         map((res: any) => res)
@@ -61,4 +65,15 @@ export class TaskService {
         map((res: any) => res)
       );
   }
+
+  concluirTask(task: Task): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json');
+
+    return this.http.put(`${this.taskUrl}/concluir`, task, { headers })
+      .pipe(
+        map((res: any) => res)
+      );
+  }
+
 }

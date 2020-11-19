@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div class="container">
   <div class="ui-g">
 
@@ -6,10 +8,15 @@
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
-        <label>Titulo </label>
-        <input type="text" class="espacamento" pInputText name="titulo" [(ngModel)]="titulo" >
+        <label style="margin-right: .5em;">Titulo </label>
+        <input type="text" class="espacamento" pInputText name="titulo" [(ngModel)]="titulo" style="margin-right: .5em;" >
 
-        <button pButton class="espacamento" type="button" (click)="pesquisar()" label="Pesquisar" ></button>
+        <label style="margin-right: .5em; margin-left: .5em;">Status</label>
+        <p-dropdown [options]="status" placeholder="Selecione Status" [(ngModel)]="selectedStatus"
+          optionLabel="value"></p-dropdown>
+
+        <button pButton class="espacamento" type="button" (click)="pesquisar()" label="Pesquisar"
+          style="margin-right: .5em; margin-left: .5em;" ></button>
         <a pButton label="Cadastrar" routerLink="/tasks/novo" ></a>
       </div>
   </div>
@@ -19,7 +26,8 @@
   <div class="ui-g">
     <div class="ui-g-12">
       <p-table [value]="tasks" [paginator]="true" [rows]="pageSize" [responsive]="true" [lazy]="true"
-        [totalRecords]="totalElements" (onLazyLoad)="mudarPagina($event)" emptyMessage="Nenhum registro encontrado">
+        [totalRecords]="totalElements" (onLazyLoad)="mudarPagina($event)" emptyMessage="Nenhum registro encontrado"
+        [(selection)]="selectedRowDataArray">
         <ng-template pTemplate="header">
           <tr>
               <th>ID</th>
@@ -38,12 +46,14 @@
             <td [ngClass]="'col-data'">{{task.dataCriacao | date : 'dd/MM/yyyy'}}</td>
             <td [ngClass]="'col-data'">{{task.dataConclusao | date : 'dd/MM/yyyy'}}</td>
             <td>{{task.status}}</td>
-            <td></td>
+            <td>
+               <p-tableCheckbox [value]="task" (click)="concluirTask(task, task.status)"></p-tableCheckbox>
+            </td>
             <td [ngClass]="'col-acoes'">
               <a pButton icon="pi pi-pencil" style="margin-right: .5em; width: 40%;" pTooltip="Editar"
                 [routerLink]="['/tasks', task.id]" tooltipPosition="top"></a>
               <button pButton icon="pi pi-trash" style="width: 40%;" pTooltip="Excluir"
-                tooltipPosition="top"></button>
+                tooltipPosition="top" (click)="confirmarExclusao(task.id)"></button>
             </td>
           </tr>
         </ng-template>
